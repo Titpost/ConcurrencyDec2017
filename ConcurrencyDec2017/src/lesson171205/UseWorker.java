@@ -19,6 +19,9 @@ public class UseWorker {
 			Utils.pause(1000);
 			System.out.println("two");
 		});
+
+		// put "Poison Pill" here
+		worker.execute(new WorkerStopper());
 		
 		worker.execute(() -> {
 			Utils.pause(1000);
