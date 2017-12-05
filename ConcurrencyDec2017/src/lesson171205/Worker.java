@@ -21,10 +21,16 @@ public class Worker implements Executor {
 	}
 
 	private void processTasks() {
+
+		boolean stopped = false;
+
 		while (true) {
 			Runnable task = null;
 			synchronized (mutex) {
 				while (tasks.isEmpty()) {
+					if (stopped) {
+						return;
+					}
 					try {
 						mutex.wait();
 					} catch (InterruptedException e) {
@@ -32,6 +38,12 @@ public class Worker implements Executor {
 					}
 				}
 				task = tasks.poll();
+
+				// check for Poison Pill
+				if (task instanceof PoisonPill) {
+					((PoisonPill)task).stop();
+					stopped = true;
+				}
 			}
 			task.run();
 		}
