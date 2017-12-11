@@ -68,8 +68,12 @@ public class MyBlockingQueue {
         System.out.println("One task has been put and worker started");
 
         for (int i = 0; i < 4; i++) {
+            int j = i;
             myBlockingQueue.put(
-                    () -> Utils.pause(800));
+                    () -> {
+                        Utils.pause(800);
+                        System.out.println("Task №" + j + " has been put");
+                    });
             System.out.println("Task №" + i + " has been taken");
         }
     }
