@@ -15,13 +15,15 @@ public class MyBlockingQueue {
         synchronized (mutex) {
             if (!tasks.isEmpty()) {
                 try {
+                    System.out.println("PUT: '!tasks.isEmpty()', going to wait");
                     mutex.wait();
+                    System.out.println("PUT: await finished!");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                tasks.add(runnable);
-                mutex.notify();
             }
+            tasks.add(runnable);
+            mutex.notify();
         }
     }
 
@@ -30,12 +32,15 @@ public class MyBlockingQueue {
         synchronized (mutex) {
             if (tasks.isEmpty()) {
                 try {
+                    System.out.println("GET: 'tasks.isEmpty()', going to wait");
                     mutex.wait();
+                    System.out.println("GET: await finished!");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
             ret = tasks.remove(0);
+            System.out.println("GET: task get successfull: " + ret);
             mutex.notify();
         }
         return ret;
