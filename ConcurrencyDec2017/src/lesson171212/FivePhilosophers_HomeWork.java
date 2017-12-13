@@ -63,7 +63,7 @@ class Philosopher {
 
         try {
             Thread.sleep(1000);
-            System.out.println("I am eating with " + left + " and " + right);
+            System.out.println(" I am eating with " + left + " and " + right);
 
         } catch(Exception ex) {
         } finally {
